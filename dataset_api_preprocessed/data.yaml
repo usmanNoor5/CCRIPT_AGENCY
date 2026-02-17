@@ -1,0 +1,7 @@
+path: /home/orinnano/Documents/CCRIPT_AGENCY/dataset_api_preprocessed
+train: images/train
+val: images/val
+nc: 2
+names:
+  0: wall
+  1: slab

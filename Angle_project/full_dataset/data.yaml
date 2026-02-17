@@ -1,0 +1,6 @@
+path: /home/orinnano/Documents/CCRIPT_AGENCY/Angle_project/full_dataset
+train: images/train
+val: images/val
+nc: 1
+names:
+  0: wall

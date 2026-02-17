@@ -1,0 +1,29 @@
+# Ignore everything by default
+*
+
+# Allow .gitignore
+!.gitignore
+
+# Allow all directories (so git can traverse into them)
+!*/
+
+# Allow all Python files
+!**/*.py
+
+# Allow config files
+!requirements.txt
+!**/data.yaml
+
+# Allow JSON annotations
+!datasets/my_dataset/*.json
+
+# Allow wall5 best weights
+!runs/segment/runs_api/yoloseg_wall5/weights/best.pt
+
+# Allow .gitkeep for empty folders
+!**/.gitkeep
+
+# Always ignore these directories entirely
+.venv/**
+__pycache__/**
+.claude/**

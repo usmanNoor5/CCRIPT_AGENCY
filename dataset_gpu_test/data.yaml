@@ -1,0 +1,7 @@
+path: dataset_gpu_test
+train: images/train
+val: images/val
+nc: 2
+names:
+  0: wall
+  1: slab
