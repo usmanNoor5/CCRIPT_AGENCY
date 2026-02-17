@@ -91,12 +91,6 @@ def main() -> None:
                 padded[:tile.shape[0], :tile.shape[1]] = tile
                 tile = padded
 
-            # Skip mostly blank tiles (>95% white)
-            gray_check = cv2.cvtColor(tile, cv2.COLOR_BGR2GRAY)
-            white_ratio = np.sum(gray_check > 240) / (tile_sz * tile_sz)
-            if white_ratio > 0.95:
-                continue
-
             # Save tile as-is (no post-processing)
             name = f"{img_path.stem}_tile_r{y:04d}_c{x:04d}.png"
             cv2.imwrite(str(out_dir / name), tile)
