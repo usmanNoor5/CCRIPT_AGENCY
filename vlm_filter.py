@@ -27,8 +27,11 @@ from pathlib import Path
 import cv2
 import numpy as np
 import torch
+from PIL import Image
 from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
 from qwen_vl_utils import process_vision_info
+
+MAX_VLM_PX = 1024   # cap longest side before sending to Qwen to avoid OOM
 
 
 # ---------------------------------------------------------------------------
@@ -51,13 +54,25 @@ def load_model(model_id: str):
 # VLM inference helpers
 # ---------------------------------------------------------------------------
 
+def _resize_for_vlm(image_path: Path, max_px: int = MAX_VLM_PX) -> Image.Image:
+    """Load image and downscale longest side to max_px to prevent OOM."""
+    img = Image.open(image_path).convert("RGB")
+    w, h = img.size
+    longest = max(w, h)
+    if longest > max_px:
+        scale = max_px / longest
+        img = img.resize((int(w * scale), int(h * scale)), Image.LANCZOS)
+    return img
+
+
 def _run_inference(model, processor, image_path: Path, question: str,
                    max_new_tokens: int, skip_special: bool) -> str:
+    pil_img = _resize_for_vlm(image_path)
     messages = [
         {
             "role": "user",
             "content": [
-                {"type": "image", "image": str(image_path)},
+                {"type": "image", "image": pil_img},
                 {"type": "text",  "text": question},
             ],
         }

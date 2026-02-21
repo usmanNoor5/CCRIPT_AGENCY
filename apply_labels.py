@@ -7,11 +7,11 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-NUM_SAMPLES = 100
+NUM_SAMPLES = 50
 SEED = 42
 
-BASE = Path(__file__).resolve().parent / "full_dataset"
-OUT = BASE / "labeled_samples"
+BASE = Path(__file__).resolve().parent / "augmented_dataset"
+OUT = Path(__file__).resolve().parent / "augmented_dataset" / "labeled_samples"
 OUT.mkdir(exist_ok=True)
 
 # Collect all image/label pairs from train + val
@@ -21,7 +21,7 @@ for split in ("train", "val"):
     lbl_dir = BASE / "labels" / split
     if not img_dir.exists():
         continue
-    for img_path in sorted(img_dir.glob("*.png")):
+    for img_path in sorted(img_dir.glob("*.jpg")) + sorted(img_dir.glob("*.png")):
         lbl_path = lbl_dir / f"{img_path.stem}.txt"
         if lbl_path.exists() and lbl_path.read_text().strip():
             pairs.append((img_path, lbl_path, split))
