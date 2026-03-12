@@ -52,7 +52,7 @@ def parse_yolo_label(label_path: Path, img_w: int, img_h: int):
         bbox_w = x_max - x_min
         bbox_h = y_max - y_min
 
-        if bbox_w < 1 or bbox_h < 1:
+        if bbox_w < 5 or bbox_h < 5:
             continue
 
         # Compute area from polygon

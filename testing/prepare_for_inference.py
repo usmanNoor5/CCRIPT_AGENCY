@@ -1,5 +1,6 @@
 """
-Convert a full-page floor plan image into 512x512 tiles for inference.
+Convert a full-page floor plan image into 640x640 tiles for SAM3 inference.
+(SAM3 was trained on 640x640 tiles; it resizes to 1008 internally.)
 
 Usage:
     python3 testing/prepare_for_inference.py --input testing/images/page_007.png
@@ -39,10 +40,10 @@ def auto_crop(img: np.ndarray, pad: int = 20) -> np.ndarray:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Prepare floor plan image for YOLO-seg inference.")
+    ap = argparse.ArgumentParser(description="Prepare floor plan image for SAM3 wall detection.")
     ap.add_argument("--input", type=str, required=True, help="Path to full-page floor plan image")
-    ap.add_argument("--tile-size", type=int, default=512, help="Tile size (default 512)")
-    ap.add_argument("--overlap", type=int, default=64, help="Overlap between tiles in pixels")
+    ap.add_argument("--tile-size", type=int, default=640, help="Tile size (default 640, matching SAM3 training data)")
+    ap.add_argument("--overlap", type=int, default=128, help="Overlap between tiles in pixels")
     ap.add_argument("--out", type=str, default=None, help="Output directory (default: testing/tiles/)")
     ap.add_argument("--no-crop", action="store_true", help="Skip auto-cropping")
     args = ap.parse_args()
@@ -97,8 +98,8 @@ def main() -> None:
             count += 1
 
     print(f"\nSaved {count} tiles to {out_dir}/")
-    print(f"\nRun inference with:")
-    print(f"  python3 infer_walls.py --source {out_dir}/")
+    print(f"\nRun SAM3 inference with:")
+    print(f"  python3.12 predict_walls.py --tile-dir {out_dir}/")
 
 
 if __name__ == "__main__":
