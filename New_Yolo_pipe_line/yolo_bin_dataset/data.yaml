@@ -1,7 +1,0 @@
-path: /home/ec2-user/CCRIPT_AGENCY/New_Yolo_pipe_line/yolo_bin_dataset
-train: images/train
-val: images/val
-test: images/test
-nc: 1
-names:
-  0: wall

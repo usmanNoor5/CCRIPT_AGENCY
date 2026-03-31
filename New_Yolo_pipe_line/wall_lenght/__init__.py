@@ -1,4 +1,0 @@
-"""
-Wall length estimation utilities.
-"""
-

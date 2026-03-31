@@ -108,7 +108,7 @@ def main():
         }
         # Copy any extra top-level keys (info, licenses)
         for key in coco:
-            if key not in ("images", "annotations", "categories"):
+            if key not in ("images", "annotations", "cateaddgories"):
                 split_coco[key] = coco[key]
 
         json_path = split_dir / "_annotations.coco.json"
